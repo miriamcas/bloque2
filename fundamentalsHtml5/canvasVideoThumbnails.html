@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+            <meta http-equiv="x-ua-compatible" content="ie=edge">
+            <title>HTML5 Fundamentals</title>
+            <meta name="description" content="">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+
+            <link rel="stylesheet" href="css/bootstrap.css" type="text/css" />
+            <link rel="stylesheet" href="css/site.css" type="text/css" />
+            <link rel="icon" type="image/png" href="img/favicon.png">
+            <link rel="stylesheet" href="js/highlight/styles/github.css" />
+
+           <script src="js/modernizr.min.js" type="text/javascript"></script>
+            <script src="js/jquery.min.js" type="text/javascript"></script>
+            <script src="js/bootstrap.js" type="text/javascript"></script>
+            <script src="js/highlight/highlight.pack.js" type="text/javascript"></script>
+            <script src="js/app.js" type="text/javascript"></script>
+
+            <!--<script src="js/forms.js"></script>-->
+
+
+  </head>
+  <body>
+    <div id="player">
+      <video id="vid" controls="" width="320" height="180">
+          <source src="media/kitchen.mp4" type="video/mp4">
+          <source src="media/kitchen.webm" type="video/webm">
+      </video>
+  </div>
+  <button id="btn" class="btn btn-mini push-down-top">Get Thumbnail</button>
+  <div id="thumbs" class="push-down-top"></div>
+  <canvas id="canvas" class="hidden" width="320" height="180">
+      <p>Your browser does not support the canvas element.</p>
+  </canvas>
+  </body>
+<script>
+var
+  video = document.querySelector('#vid'),
+  canvas = document.querySelector('#canvas'),
+  context = null,
+  btn = document.querySelector('#btn'),
+  thumbs = document.querySelector('#thumbs'),
+  thumbInterval = null;
+
+if (Modernizr.canvas) {
+  context = canvas.getContext('2d');
+
+  var width =
+        video.width =
+        canvas.width =
+        video.offsetWidth = 320;
+
+  var height =
+        video.height =
+        canvas.height =
+        video.offsetHeight = 180;
+
+  var getThumb = function() {
+        var thumb;
+        context.drawImage(video, 0, 0, width, height);
+        thumb = new Image();
+        thumb.src = canvas.toDataURL('image/png');
+        thumb.width = 60;
+        thumbs.appendChild(thumb);
+  };
+
+  btn.addEventListener('click', getThumb);
+}</script>
+</html>

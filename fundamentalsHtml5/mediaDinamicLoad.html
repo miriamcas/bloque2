@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <link rel="stylesheet" href="css/forms.css" type="text/css">
+    <link rel="stylesheet" href="css/bootstrap.css" type="text/css" />
+    <link rel="stylesheet" href="css/site.css" type="text/css" />
+    <link rel="icon" type="image/png" href="img/favicon.png">
+    <link rel="stylesheet" href="js/highlight/styles/github.css" />
+  </head>
+  <body>
+    <video id="vid"
+      poster="img/kitchen.png"
+      data-firstfile="kitchen"
+      data-secondfile="view"
+      width="900" controls>
+    <source src="media/kitchen.mp4" type="video/mp4">
+    <source src="media/kitchen.webm" type="video/webm">
+    <source src="media/kitchen.ogv" type="video/ogg">
+  </video>
+    <div>
+      </div>
+  </body>
+  <script>
+  var video, firstFileName, secondFileName, forEach;
+
+  forEach = Array.prototype.forEach;
+  video = document.getElementById('vid');
+
+  firstFileName = video.getAttribute('data-firstfile');
+  secondFileName = video.getAttribute('data-secondfile');
+
+  video.addEventListener('ended', function() {
+    sources = this.getElementsByTagName('source');
+
+    // check to see if the last video is not loaded
+    if(sources[0].src.indexOf(secondFileName) === -1){
+      forEach.call(sources, function(source) {
+        source.src = source.src.replace(firstFileName, secondFileName);
+      });
+
+      this.load();
+      this.play();
+    }
+  });
+  </script>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+            <meta http-equiv="x-ua-compatible" content="ie=edge">
+            <title>HTML5 Fundamentals</title>
+            <meta name="description" content="">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+
+            <link rel="stylesheet" href="css/bootstrap.css" type="text/css" />
+            <link rel="stylesheet" href="css/site.css" type="text/css" />
+            <link rel="icon" type="image/png" href="img/favicon.png">
+            <link rel="stylesheet" href="js/highlight/styles/github.css" />
+
+            <script src="js/Modernizr.min.js" type="text/javascript"></script>
+            <script src="js/jquery.min.js" type="text/javascript"></script>
+            <script src="js/bootstrap.js" type="text/javascript"></script>
+            <script src="js/highlight/highlight.pack.js" type="text/javascript"></script>
+            <script src="js/app.js" type="text/javascript"></script>
+
+            <!--<script src="js/forms.js"></script>-->
+
+
+  </head>
+  <body>
+<canvas id="canvas" width="600" height="400"></canvas>
+  </body>
+ <script>
+ var
+   canvas = document.getElementById('canvas'),
+   context = null;
+
+ if (Modernizr.canvas) {
+
+   context = canvas.getContext('2d');
+
+   var img = new Image();
+   img.onload = function() {
+
+     context.drawImage(img, 0, 0);
+
+     context.beginPath();
+     context.moveTo(70, 105);
+     context.lineTo(105, 132);
+     context.lineTo(142, 250);
+     context.lineTo(176, 175);
+     context.lineTo(212, 145);
+     context.lineTo(245, 197);
+     context.lineTo(280, 90);
+
+     context.stroke();
+   }
+   img.src = 'img/chart-background.png';
+ }
+ </script>
+
+</html>

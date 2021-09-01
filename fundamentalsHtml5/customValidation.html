@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+            <meta http-equiv="x-ua-compatible" content="ie=edge">
+            <title>HTML5 Fundamentals</title>
+            <meta name="description" content="">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+
+      
+            <link rel="stylesheet" href="css/bootstrap.css" type="text/css" />
+            <link rel="stylesheet" href="css/site.css" type="text/css" />
+            <link rel="icon" type="image/png" href="img/favicon.png">
+            <link rel="stylesheet" href="js/highlight/styles/github.css" />
+
+
+            <script src="js/jquery.min.js" type="text/javascript"></script>
+            <script src="js/bootstrap.js" type="text/javascript"></script>
+            <script src="js/highlight/highlight.pack.js" type="text/javascript"></script>
+            <script src="js/app.js" type="text/javascript"></script>
+
+            <!--<script src="js/forms.js"></script>-->
+
+
+  </head>
+  <body>
+    <form id="change-email-form" name="change-email-form">
+  <input type="text"
+    name="username"
+    id="username"
+    pattern="[a-zA-Z ]{5,}"
+    maxlength="30"
+    required
+    placeholder="username"
+    class="form-control">
+
+  <div class="validation-messages">
+    <span data-rule="valueMissing" class="hide">The username is required.</span>
+    <span data-rule="patternMismatch" class="hide">Must be a series of alpha
+      characters only (min 5, max 30).</span>
+  </div>
+
+  <input type="email"
+    id="email"
+    title="Email address is required"
+    required
+    placeholder="email address"
+    class="form-control">
+
+  <div class="validation-messages">
+    <span data-rule="valueMissing" class="hide">
+      An email address is required.</span>
+    <span data-rule="typeMismatch" class="hide">
+      Special characters are not allowed.</span>
+    <span data-rule="isAol" class="hide">
+      Please enter a non-AOL email address :)</span>
+  </div>
+
+  <div class="push-down-top">
+    <button type="button" class="btn btn-link">Cancel</button>
+    <button type="button" id="login-button" class="btn">Login</button>
+  </div>
+</form>
+  </body>
+<script>
+
+document.addEventListener('DOMContentLoaded', function(event) {
+  // Create a container for validation rule names.
+  var ruleNames = [];
+  var forEach = Array.prototype.forEach;
+
+  var ruleElements = document.querySelectorAll('[data-rule]');
+
+  forEach.call(ruleElements, function(element) {
+    var ruleName = element.getAttribute('data-rule');
+    if (ruleNames.indexOf(ruleName) === -1) {
+        ruleNames.push(ruleName);
+    }
+  });
+
+  var validate = function() {
+      var messageElements = document.querySelectorAll(".validation-messages span");
+
+      forEach.call(messageElements, function(element){
+        element.classList.add('hide');
+      });
+
+      validateAgainstCustomRules();
+
+      document.getElementById('change-email-form').checkValidity();
+  };
+
+  var validationFail = function(e) {
+      var element, validity;
+
+      element = e.currentTarget;
+      validity = element.validity;
+
+      if (!validity.valid) {
+        ruleNames.forEach(function(ruleName) {
+          checkRule(validity, ruleName, element);
+        });
+
+        e.preventDefault();
+      }
+  };
+
+  var checkRule = function(state, ruleName, element) {
+    if (state[ruleName]) {
+
+      var rules = element
+                        .nextElementSibling
+                        .querySelectorAll('[data-rule="' + ruleName + '"]');
+
+      forEach.call(rules, function(rule){
+        rule.classList.remove('hide');
+      });
+    }
+  };
+
+  var validateAgainstPattern = function(element, pattern, ruleName) {
+
+      if (element.value.match(pattern)) {
+        element.setCustomValidity('invalid');
+
+        element.nextElementSibling
+               .querySelector('[data-rule="' + ruleName + '"]')
+               .classList
+               .remove('hide');
+      }
+      else {
+        element.setCustomValidity('');
+      }
+  };
+
+  var validateAgainstCustomRules = function() {
+      validateAgainstPattern(document.getElementById('email'), /@aol.com/i, 'isAol');
+  };
+
+  var inputElements = document.querySelectorAll('input:not(button)');
+  forEach.call(inputElements, function(input) {
+      input.oninvalid = validationFail;
+      input.onblur = validate;
+  });
+
+  document.getElementById('login-button').addEventListener('click', validate, false);
+});
+</script>
+</html>
